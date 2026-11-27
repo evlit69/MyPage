@@ -1,0 +1,100 @@
+
+erDiagram
+    USER {
+        bigint id PK
+        varchar_150 username UK "NOT NULL"
+        varchar_254 email UK "NOT NULL"
+        varchar_128 password "NOT NULL"
+        varchar_150 first_name
+        varchar_150 last_name
+        boolean is_staff "DEFAULT false"
+        boolean is_active "DEFAULT true"
+        boolean is_superuser "DEFAULT false"
+        timestamptz last_login
+        timestamptz date_joined "NOT NULL"
+    }
+
+    PROFILE {
+        bigint user_id PK, FK
+        varchar_255 profile_picture
+        varchar_255 banner_picture
+        text bio
+        varchar_150 occupation
+        varchar_7 accent_color "DEFAULT #FFFFFF"
+        varchar_7 border_color "DEFAULT #000000"
+        timestamptz created_at "NOT NULL"
+        timestamptz updated_at "NOT NULL"
+    }
+
+    SOCIAL_LINK {
+        bigint id PK
+        bigint user_id FK
+        varchar_50 platform "NOT NULL"
+        varchar_500 url "NOT NULL"
+        integer display_order "DEFAULT 0"
+    }
+
+    SKILL {
+        bigint id PK
+        bigint user_id FK
+        varchar_100 name "NOT NULL"
+        text description
+        integer display_order "DEFAULT 0"
+    }
+
+    ACHIEVEMENT {
+        bigint id PK
+        bigint user_id FK
+        varchar_150 title "NOT NULL"
+        text description
+        varchar_150 issuer
+        date achievement_date
+        varchar_255 image
+        integer display_order "DEFAULT 0"
+    }
+
+    EDUCATION {
+        bigint id PK
+        bigint user_id FK
+        varchar_200 institution "NOT NULL"
+        varchar_150 degree
+        varchar_150 field_of_study
+        date start_date
+        date end_date
+        integer display_order "DEFAULT 0"
+    }
+
+    EXPERIENCE {
+        bigint id PK
+        bigint user_id FK
+        varchar_150 company "NOT NULL"
+        varchar_150 position "NOT NULL"
+        varchar_50 employment_type
+        date start_date
+        date end_date
+        integer display_order "DEFAULT 0"
+    }
+
+    HOBBY {
+        bigint id PK
+        bigint user_id FK
+        varchar_100 name "NOT NULL"
+        text description
+        integer display_order "DEFAULT 0"
+    }
+
+    PROFILE_SECTION {
+        bigint id PK
+        bigint user_id FK
+        varchar_50 section_type "NOT NULL"
+        boolean is_visible "DEFAULT true"
+    }
+
+    USER ||--|| PROFILE : has
+    PROFILE ||--o{ SOCIAL_LINK : contains
+    PROFILE ||--o{ SKILL : contains
+    PROFILE ||--o{ ACHIEVEMENT : contains
+    PROFILE ||--o{ EDUCATION : contains
+    PROFILE ||--o{ EXPERIENCE : contains
+    PROFILE ||--o{ HOBBY : contains
+    PROFILE ||--o{ PROFILE_SECTION : contains
